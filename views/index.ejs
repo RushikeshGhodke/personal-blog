@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header>
+    <h1>Welcome to My Personal Blog</h1>
+    <p>Sharing thoughts and ideas about technology</p>
+  </header>
+
+  <main>
+    <% if (blogs && blogs.length > 0) { %>
+      <div class="blog-list">
+        <% blogs.forEach(blog => { %>
+          <article class="blog-post">
+            <% if (blog.slug) { %>
+              <a href="/blog/<%= blog.slug %>" class="read-more"><h2><%= blog.title %></h2></a>
+            <% } %>
+          </article>
+        <% }) %>
+      </div>
+    <% } else { %>
+      <div class="no-blogs">
+        <h2>No blog posts yet</h2>
+        <p>Check back later for new content!</p>
+      </div>
+    <% } %>
+  </main>
+</body>
+</html>

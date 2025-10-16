@@ -1,0 +1,32 @@
+{
+  "name": "personal-blog",
+  "version": "1.0.0",
+  "description": "a personal blog to write and publish articles on various topics",
+  "keywords": [
+    "blog",
+    "rushikeshghodke",
+    "filesystem",
+    "markdown"
+  ],
+  "homepage": "https://github.com/RushikeshGhodke/personal-blog#readme",
+  "bugs": {
+    "url": "https://github.com/RushikeshGhodke/personal-blog/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RushikeshGhodke/personal-blog.git"
+  },
+  "license": "MIT",
+  "author": "RushikeshGhodke",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "express-session": "^1.18.2",
+    "slugify": "^1.6.6"
+  }
+}
