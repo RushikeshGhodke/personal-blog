@@ -107,7 +107,7 @@ app.post('/login', (req, res) => {
     const { username, password } = req.body;
 
     const ADMIN_USERNAME = 'admin';
-    const ADMIN_PASSWORD = 'adminpass';
+    const ADMIN_PASSWORD = 'admin';
 
     if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
         req.session.authenticated = true;
@@ -137,6 +137,10 @@ app.get('/admin', requireAuth, (req, res) => {
         username: req.session.username,
         blogs: blog
     });
+});
+
+app.post('/admin/delete/:slug', requireAuth, (req, res) => {
+    console.log(req.url.slug);
 });
 
 app.get('/api/data', (req, res) => {
