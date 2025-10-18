@@ -140,7 +140,51 @@ app.get('/admin', requireAuth, (req, res) => {
 });
 
 app.post('/admin/delete/:slug', requireAuth, (req, res) => {
-    console.log(req.url.slug);
+    const slugToDelete = req.params.slug;
+    const blogsDir = path.join(__dirname, 'blogs');
+
+    try {
+        const files = fs.readdirSync(blogsDir);
+        let deleted = false;
+
+        files.forEach(file => {
+            if (file.endsWith('.json')) {
+                const filePath = path.join(blogsDir, file);
+                const fileContent = fs.readFileSync(filePath, 'utf8');
+                const blogData = JSON.parse(fileContent);
+
+                if (Array.isArray(blogData)) {
+                    const updatedBlogs = blogData.filter(b => b.slug !== slugToDelete);
+
+                    // If something was removed, update the file
+                    if (updatedBlogs.length < blogData.length) {
+                        if (updatedBlogs.length === 0) {
+                            fs.unlinkSync(filePath);
+                        } else {
+                            fs.writeFileSync(filePath, JSON.stringify(updatedBlogs, null, 2));
+                        }
+                        deleted = true;
+                    }
+                } else {
+                    if (blogData.slug === slugToDelete) {
+                        fs.unlinkSync(filePath);
+                        deleted = true;
+                    }
+                }
+            }
+        });
+
+        if (deleted) {
+            console.log(`Blog with slug "${slugToDelete}" deleted successfully`);
+        } else {
+            console.log(`Blog with slug "${slugToDelete}" not found`);
+        }
+
+    } catch (error) {
+        console.error('Error deleting blog:', error);
+    }
+
+    res.redirect('/admin');
 });
 
 app.get('/api/data', (req, res) => {
