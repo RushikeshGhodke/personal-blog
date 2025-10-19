@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body class="noto-sans">
+  <div style="display: flex; justify-content: space-between; align-items: center;">
+    <h2 style="margin: 0;">Add New Blog Post</h2>
+    <div style="display: flex; gap: 10px;">
+      <form action="/admin" method="GET" style="display: inline;">
+        <button type="submit">Back</button>
+      </form>
+      <form action="/logout" method="POST" style="display: inline;">
+        <button type="submit">Logout</button>
+      </form>
+    </div>
+  </div>
+
+  <% if (error) { %>
+    <div class="error"><%= error %></div>
+  <% } %>
+
+  <form action="/admin/add-blog" method="POST" style="margin-top: 20px;">
+    <div style="margin: 15px 0;">
+      <label for="title" style="display: block; margin-bottom: 5px;">Title:</label>
+      <input
+        type="text"
+        id="title"
+        name="title"
+        placeholder="Enter blog title"
+        required
+        style="width: 100%;"
+      />
+    </div>
+
+    <div style="margin: 15px 0;">
+      <label for="slug" style="display: block; margin-bottom: 5px;">Slug:</label>
+      <input
+        type="text"
+        id="slug"
+        name="slug"
+        placeholder="blog-url-slug"
+        required
+        pattern="[a-z0-9-]+"
+        style="width: 100%;"
+      />
+      <small style="color: #666;">URL-friendly (e.g., what-is-javascript)</small>
+    </div>
+
+    <div style="margin: 15px 0;">
+      <label for="date" style="display: block; margin-bottom: 5px;">Date:</label>
+      <input
+        type="text"
+        id="date"
+        name="date"
+        placeholder="DD/MM/YYYY"
+        required
+        pattern="\d{2}/\d{2}/\d{4}"
+        style="width: 100%;"
+      />
+      <small style="color: #666;">Format: DD/MM/YYYY</small>
+    </div>
+
+    <div style="margin: 15px 0;">
+      <label for="content" style="display: block; margin-bottom: 5px;">Content:</label>
+      <textarea
+        id="content"
+        name="content"
+        placeholder="Write your blog content..."
+        required
+        rows="10"
+        style="width: 100%; resize: vertical;"
+      ></textarea>
+    </div>
+
+    <button type="submit">Create Blog Post</button>
+  </form>
+
+  <script>
+    // Auto-generate slug from title
+    document.getElementById('title').addEventListener('input', function(e) {
+      const title = e.target.value;
+      const slug = title
+        .toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+        .trim();
+      document.getElementById('slug').value = slug;
+    });
+
+    // Auto-fill today's date
+    window.addEventListener('load', function() {
+      const today = new Date();
+      const day = String(today.getDate()).padStart(2, '0');
+      const month = String(today.getMonth() + 1).padStart(2, '0');
+      const year = today.getFullYear();
+      document.getElementById('date').value = `${day}/${month}/${year}`;
+    });
+  </script>
+</body>
+</html>

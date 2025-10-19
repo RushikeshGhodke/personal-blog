@@ -187,6 +187,60 @@ app.post('/admin/delete/:slug', requireAuth, (req, res) => {
     res.redirect('/admin');
 });
 
+app.get('/admin/add-blog', requireAuth, (req, res) => {
+    res.render('addblog', {
+        title: "Add Blog",
+        error: null
+    })
+});
+
+app.post('/admin/add-blog', requireAuth, (req, res) => {
+    const { title, content, date, slug } = req.body;
+
+    if (!title || !content || !date || !slug) {
+        return res.render('addBlog', {
+            title: "Add new blog",
+            error: "All fields are required"
+        })
+    }
+
+    const blogs = getAllBlogs();
+    const slugExists = blogs.some(b => b.slug === slug);
+
+    if (slugExists) {
+        return res.render('addblog', {
+            title: 'Add New Blog',
+            username: req.session.username,
+            error: 'A blog with this slug already exists'
+        });
+    }
+
+    try {
+        const newBlog = {
+            title,
+            content,
+            date,
+            slug
+        };
+
+        const filename = `${slug}.json`;
+        const filePath = path.join(__dirname, 'blogs', filename);
+
+        fs.writeFileSync(filePath, JSON.stringify([newBlog], null, 2));
+
+        console.log(`Blog "${title}" created successfully`);
+        res.redirect('/admin');
+
+    } catch (error) {
+        console.error('Error creating blog:', error);
+        res.render('addblog', {
+            title: 'Add New Blog',
+            username: req.session.username,
+            error: 'Error creating blog post'
+        });
+    }
+});
+
 app.get('/api/data', (req, res) => {
     res.json({
         title: "Hello from API",

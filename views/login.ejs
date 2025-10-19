@@ -3,51 +3,40 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
     <link rel="stylesheet" href="/style.css" />
-    <title>Login Page</title>
   </head>
-  <body>
-    <div
-      class="noto-sans"
-      style="text-align: left; max-width: 400px; margin-left: 20px"
-    >
-      <h2>Admin Login</h2>
+  <body class="noto-sans">
+    <a href="/">Back</a>
 
-      <% if (error) { %>
-      <div class="error"><%= error %></div>
-      <% } %>
+    <h2>Admin Login</h2>
 
-      <form
-        style="
-          display: flex;
-          flex-direction: column;
-          align-items: flex-start;
-          gap: 10px;
-        "
-        action="/login"
-        method="POST"
-      >
+    <% if (error) { %>
+    <div class="error"><%= error %></div>
+    <% } %>
+
+    <form action="/login" method="POST">
+      <div style="margin: 10px 0;">
         <input
-          style="width: 100%"
           type="text"
           name="username"
-          id="username"
           placeholder="Username"
           required
+          style="width: 100%;"
         />
+      </div>
+
+      <div style="margin: 10px 0;">
         <input
-          style="width: 100%"
           type="password"
           name="password"
-          id="password"
           placeholder="Password"
           required
+          style="width: 100%;"
         />
-        <button type="submit">Login</button>
-      </form>
-      <form action="/" method="GET">
-        <button type="submit">Back to Blog</button>
-      </form>
-    </div>
+      </div>
+
+      <button type="submit">Login</button>
+    </form>
   </body>
 </html>

@@ -6,28 +6,21 @@
   <link rel="stylesheet" href="/style.css">
 </head>
 <body class="noto-sans">
-  <header>
-    <h1>Rushikesh's Personal Blog</h1>
-    <p>Sharing thoughts and ideas about technology</p>
-  </header>
+  <h1>Rushikesh's Personal Blog</h1>
+  <p>Sharing thoughts and ideas about technology</p>
 
-  <main>
-    <% if (blogs && blogs.length > 0) { %>
-      <div>
-        <% blogs.forEach(blog => { %>
-          <article>
-            <% if (blog.slug) { %>
-              <a href="/blog/<%= blog.slug %>"><%= blog.title %></a>
-            <% } %>
-          </article>
-        <% }) %>
-      </div>
-    <% } else { %>
-      <div>
-        <h2>No blog posts yet</h2>
-        <p>Check back later for new content!</p>
-      </div>
-    <% } %>
-  </main>
+  <% if (blogs && blogs.length > 0) { %>
+    <div style="margin-top: 30px;">
+      <% blogs.forEach(blog => { %>
+        <div style="margin: 15px 0;">
+          <% if (blog.slug) { %>
+            <a href="/blog/<%= blog.slug %>"><%= blog.title %></a>
+          <% } %>
+        </div>
+      <% }) %>
+    </div>
+  <% } else { %>
+    <p>No blog posts yet. Check back later for new content!</p>
+  <% } %>
 </body>
 </html>
